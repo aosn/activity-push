@@ -12,18 +12,15 @@ type Workshop struct {
 	Published SimpleDate `json:"published"`
 }
 
-type Participant struct {
-	GitHubID string `json:"github_id"`
-	Attend   bool   `json:"attend"`
-}
-
 type Record struct {
-	Num      int           `json:"num"`
-	Workshop Workshop      `json:"workshop"`
-	Date     SimpleDate    `json:"date"`
-	Attends  []Participant `json:"attends"`
-	Begin    int           `json:"begin,omitempty"`
-	End      int           `json:"begin,omitempty"`
+	Num          int        `json:"num"`
+	Workshop     Workshop   `json:"workshop"`
+	Date         SimpleDate `json:"date"`
+	Attends      []string   `json:"attends"`
+	NotAttends   []string   `json:"not-attends"`
+	AttendsTotal int        `json:"attends-total"`
+	Begin        int        `json:"begin,omitempty"`
+	End          int        `json:"begin,omitempty"`
 }
 
 type SimpleDate struct {

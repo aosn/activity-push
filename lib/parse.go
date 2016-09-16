@@ -104,7 +104,8 @@ func Parse(markdown string) []Record {
 		case recordFinding:
 			if strings.HasPrefix(line, recordPrefix) {
 				var record Record
-				var attends []Participant
+				var attends []string
+				var notAttends []string
 				record.Workshop = workshop
 				columns := strings.Split(line, "|")
 
@@ -124,18 +125,20 @@ func Parse(markdown string) []Record {
 				record.Date = SimpleDate{t}
 
 				// 3: A (unused)
+				total, err := strconv.Atoi(strings.Trim(columns[3], " "))
+				if err != nil {
+					panic(err) // invalid number format
+				}
+				record.AttendsTotal = total
 
 				// 4: :o: / :x:
 				for n, ox := range strings.Replace(strings.Trim(columns[4], " "), ":", "", -1) {
-					var p Participant
-					p.GitHubID = users[n]
 					switch ox {
 					case 'o':
-						p.Attend = true
-					default:
-						p.Attend = false
+						attends = append(attends, users[n])
+					case 'x':
+						notAttends = append(notAttends, users[n])
 					}
-					attends = append(attends, p)
 				}
 
 				// 5: p - p (or empty)
