@@ -146,6 +146,7 @@ func Parse(markdown string) []Record {
 				// 6: ex (unused)
 
 				record.Attends = attends
+				record.NotAttends = notAttends
 				records = append(records, record)
 			} else {
 				break
