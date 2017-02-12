@@ -25,6 +25,7 @@ const (
 	isbnFinding
 	participantsFinding
 	recordFinding
+	ending
 )
 
 func Parse(markdown string) []Record {
@@ -112,7 +113,8 @@ func Parse(markdown string) []Record {
 				// 1: #
 				num, err := strconv.Atoi(strings.Trim(columns[1], " "))
 				if err != nil {
-					panic(err) // invalid number format
+					state = ending // not a parse target
+					break
 				}
 				record.Num = num
 
@@ -151,6 +153,8 @@ func Parse(markdown string) []Record {
 			} else {
 				break
 			}
+		case ending:
+			break
 		default:
 			continue // continue finding
 		}
