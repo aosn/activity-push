@@ -1,7 +1,6 @@
 AOSN activity-push
 ==================
 
-[![Build Status](http://jenkins.tasktoys.com/buildStatus/icon?job=aosn/activity-push/master)](http://jenkins.tasktoys.com/job/aosn/job/activity-push/job/master/)
 [![Code Climate](https://codeclimate.com/github/aosn/activity-push/badges/gpa.svg)](https://codeclimate.com/github/aosn/activity-push)
 [![Go Report Card](https://goreportcard.com/badge/github.com/aosn/activity-push)](https://goreportcard.com/report/github.com/aosn/activity-push)
 
