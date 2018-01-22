@@ -30,9 +30,9 @@ func (l OrderedEntries) Less(i, j int) bool {
 }
 
 type Ranking struct {
-	List []Entry
-	Max int
-	Min int
+	List  []Entry
+	Max   int
+	Min   int
 	Total int
 }
 

@@ -12,7 +12,7 @@ func PrintStat(records []chartgen.Record) {
 	ranking := chartgen.AttendeeRanking(records)
 	avg := 0.0
 	if ranking.Total > 0 {
-		avg = float64(ranking.Total)/float64(len(records))
+		avg = float64(ranking.Total) / float64(len(records))
 	}
 	fmt.Println("## 統計")
 	fmt.Println()

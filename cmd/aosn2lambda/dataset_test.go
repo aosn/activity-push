@@ -10,23 +10,23 @@ import (
 
 func TestConvert(t *testing.T) {
 	record1 := chartgen.Record{
-		Num:      1,
-		Workshop: chartgen.Workshop{},
-		Date:     chartgen.SimpleDate{},
-		Attends: []string{"user1", "user2"},
-		NotAttends: []string{"user3", "user4"},
+		Num:          1,
+		Workshop:     chartgen.Workshop{},
+		Date:         chartgen.SimpleDate{},
+		Attends:      []string{"user1", "user2"},
+		NotAttends:   []string{"user3", "user4"},
 		AttendsTotal: 2,
-		Begin: 100,
-		End: 101}
+		Begin:        100,
+		End:          101}
 	record2 := chartgen.Record{
-		Num:      2,
-		Workshop: chartgen.Workshop{},
-		Date:     chartgen.SimpleDate{},
-		Attends: []string{"user1", "user2", "user3", "user4"},
-		NotAttends: []string{},
+		Num:          2,
+		Workshop:     chartgen.Workshop{},
+		Date:         chartgen.SimpleDate{},
+		Attends:      []string{"user1", "user2", "user3", "user4"},
+		NotAttends:   []string{},
 		AttendsTotal: 4,
-		Begin: 102,
-		End: 103}
+		Begin:        102,
+		End:          103}
 	records := []chartgen.Record{record1, record2}
 	dataSet := Convert(records)
 	if len(dataSet.ByTimes.Labels) != 2 {

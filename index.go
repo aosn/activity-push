@@ -3,11 +3,11 @@
 package chartgen
 
 import (
+	"bufio"
 	"io/ioutil"
 	"net/http"
-	"bufio"
-	"strings"
 	"regexp"
+	"strings"
 )
 
 const indexTablePrefix = "| #  | "

@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/aosn/chartgen"
 	"encoding/json"
+	"github.com/aosn/chartgen"
 	"log"
 )
 
