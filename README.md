@@ -8,7 +8,7 @@ chartgen
 
 データで見るAOSN読書会 (2016 合宿 LT)
 
-http://www.slideshare.net/YutakaKato/aosn-2016-lt
+https://go-talks.appspot.com/github.com/mikan/talks/aosn-lt-2016.slide
 
 ## How it works
 
@@ -20,6 +20,8 @@ http://www.slideshare.net/YutakaKato/aosn-2016-lt
 
 ### aosn
 
+`aosn` generates summary description written by markdown.
+
 * `-t` - Target file of the [workshop record](https://github.com/aosn/aosn.github.io/tree/master/workshop) (e.g. 1-java8)
 
 ```bash
@@ -27,6 +29,8 @@ http://www.slideshare.net/YutakaKato/aosn-2016-lt
 ```
 
 ### aosn2es
+
+`aosn2es` generates Elasticsearch (Kibana) datasets.
 
 * `-h` - Host of your Elasticsearch (default: `localhost`)
 * `-p` - Port of your Elasticsearch (default: `9200`)

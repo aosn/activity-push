@@ -11,7 +11,10 @@ import (
 
 func Push(url string, body []byte) {
 	fmt.Printf("%s", string(body))
-	resp, _ := http.Post(url, "application/json", strings.NewReader(string(body)))
+	resp, err := http.Post(url, "application/json", strings.NewReader(string(body)))
+	if err != nil {
+		panic(err)
+	}
 	defer resp.Body.Close()
 	responseBody, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println("----------")

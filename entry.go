@@ -4,10 +4,31 @@ package chartgen
 
 import (
 	"bufio"
+	"io/ioutil"
+	"net/http"
 	"strconv"
 	"strings"
 	"time"
 )
+
+type Workshop struct {
+	Title     string     `json:"title"`
+	ISBN      string     `json:"isbn"`
+	Pages     int        `json:"pages"`
+	Publisher string     `json:"publisher"`
+	Published SimpleDate `json:"published"`
+}
+
+type Record struct {
+	Num          int        `json:"num"`
+	Workshop     Workshop   `json:"workshop"`
+	Date         SimpleDate `json:"date"`
+	Attends      []string   `json:"attends"`
+	NotAttends   []string   `json:"not-attends"`
+	AttendsTotal int        `json:"attends-total"`
+	Begin        int        `json:"begin,omitempty"`
+	End          int        `json:"end,omitempty"`
+}
 
 const titlePrefix = "title: "
 const publisherPrefix = "* 出版: "
@@ -28,12 +49,23 @@ const (
 	ending
 )
 
-func Parse(markdown string) []Record {
-	scanner := bufio.NewScanner(strings.NewReader(markdown))
+func FetchEntry(key string) string {
+	url := "https://raw.githubusercontent.com/aosn/aosn.github.io/master/workshop/" + key + ".md"
+	resp, err := http.Get(url)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	return string(byteArray)
+}
+
+func ParseEntry(markdown string) []Record {
 	var workshop Workshop
 	var records []Record
 	var users []string
 	state := titleFinding // initial parser state
+	scanner := bufio.NewScanner(strings.NewReader(markdown))
 	for scanner.Scan() {
 		line := scanner.Text()
 		switch state {
@@ -41,15 +73,11 @@ func Parse(markdown string) []Record {
 			if strings.HasPrefix(line, titlePrefix) {
 				state = publisherFinding
 				workshop.Title = line[len(titlePrefix):]
-			} else {
-				continue
 			}
 		case publisherFinding:
 			if strings.HasPrefix(line, publisherPrefix) {
 				state = publishedFinding
 				workshop.Publisher = strings.Replace(line[len(publisherPrefix):], " (訳書)", "", 1)
-			} else {
-				continue
 			}
 		case publishedFinding:
 			if strings.HasPrefix(line, publishedPrefix) {
@@ -60,8 +88,6 @@ func Parse(markdown string) []Record {
 					panic(err) // invalid date format
 				}
 				workshop.Published = SimpleDate{t}
-			} else {
-				continue
 			}
 		case pagesFinding:
 			if strings.HasPrefix(line, pagesPrefix) {
@@ -71,15 +97,11 @@ func Parse(markdown string) []Record {
 					panic(err) // invalid number format
 				}
 				workshop.Pages = pages
-			} else {
-				continue
 			}
 		case isbnFinding:
 			if strings.HasPrefix(line, isbnPrefix) {
 				state = participantsFinding
 				workshop.ISBN = line[len(isbnPrefix):]
-			} else {
-				continue
 			}
 		case participantsFinding:
 			if strings.HasPrefix(line, participantsPrefix) {
@@ -99,8 +121,6 @@ func Parse(markdown string) []Record {
 					}
 				}
 				state = recordFinding
-			} else {
-				continue
 			}
 		case recordFinding:
 			if strings.HasPrefix(line, recordPrefix) {
@@ -129,9 +149,11 @@ func Parse(markdown string) []Record {
 				// 3: A (unused)
 				total, err := strconv.Atoi(strings.Trim(columns[3], " "))
 				if err != nil {
-					panic(err) // invalid number format
+					state = ending
+					break
+				} else {
+					record.AttendsTotal = total
 				}
-				record.AttendsTotal = total
 
 				// 4: :o: / :x:
 				for n, ox := range strings.Replace(strings.Trim(columns[4], " "), ":", "", -1) {

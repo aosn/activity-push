@@ -19,7 +19,7 @@ func main() {
 		flag.Usage()
 		return
 	}
-	records := chartgen.Parse(chartgen.Fetch(*target))
+	records := chartgen.ParseEntry(chartgen.FetchEntry(*target))
 	for _, record := range records {
 		data, _ := json.Marshal(record)
 		Push("http://"+*host+":"+*port+"/aosn/record/", data)
