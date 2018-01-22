@@ -1,16 +1,16 @@
-// Copyright 2016-2017 mikan.
+// Copyright 2016-2018 mikan.
 
-package stats
+package main
 
 import (
 	"fmt"
 	"math"
 	"sort"
 
-	"github.com/aosn/activity-push/lib"
+	"github.com/aosn/chartgen"
 )
 
-func PrintStat(records []lib.Record) {
+func PrintStat(records []chartgen.Record) {
 	maxAttends := math.MinInt64
 	minAttends := math.MaxInt64
 	totalAttends := 0

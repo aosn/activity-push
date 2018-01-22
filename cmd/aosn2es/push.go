@@ -1,6 +1,6 @@
-// Copyright 2016 mikan.
+// Copyright 2016-2018 mikan.
 
-package lib
+package main
 
 import (
 	"fmt"
