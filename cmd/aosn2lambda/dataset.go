@@ -5,8 +5,8 @@ package main
 import "github.com/aosn/chartgen"
 
 type DataSet struct {
-	ByTimes     IntLabeledData    `json:"by-times"`
-	ByAttendees StringLabeledData `json:"by-attendees"`
+	ByTimes     IntLabeledData    `json:"times"`
+	ByAttendees StringLabeledData `json:"attendees"`
 }
 
 type IntLabeledData struct {
